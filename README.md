@@ -5,7 +5,7 @@
 
 ## CREACION DE LA BASE DE DATOS
 - Debes crear la base de datos necesaria
-- El script se encuentra en el archivo `script.mysql`
+- El script se encuentra en el archivo `scriÑpt.mysql`
 
 ## VARIABLES DE ENTORNO
 1. Localiza el archivo `example.env`

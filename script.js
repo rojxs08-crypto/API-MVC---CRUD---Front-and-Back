@@ -1,5 +1,8 @@
 const boton = document.getElementById("guardarProducto");
 const botonVer = document.getElementById("verProductos");
+const container = document.createElement("div");
+document.body.appendChild(container);
+
 
 boton.addEventListener("click", () => {
     // 1️⃣ Armar los datos a enviar
@@ -43,12 +46,16 @@ botonVer.addEventListener("click", () => {
             "Content-Type": "application/json"
         }
     }).then(response => response.json().then(resultado => {
+        console.log("Respuesta del servidor:", resultado);
+        if(container.innerHTML != ""){
+            container.innerHTML = "";
+        }
         resultado.data.forEach(resul => {
-            console.log(`ID: ${resul.id}`);
-            console.log(`Nombre: ${resul.nombre}`);
-            console.log(`Precio: $${resul.precio}`);
-            console.log(`Creado en: ${resul.creado_en}`);
-            console.log('---------------------------');
+            const children = document.createElement("div")
+            children.innerHTML = `<p>Id: ${resul.id} - Nombre: ${resul.nombre} - Precio: ${resul.precio} - Creado: ${resul.creado_en}</p>`;
+            container.appendChild(children);
+
+
         });
     })).catch(error => {
         console.error("Error en la respuesta", error);
