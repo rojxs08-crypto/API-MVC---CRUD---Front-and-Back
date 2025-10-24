@@ -1,0 +1,20 @@
+{
+    "name": "haber/crud",
+    "description": "Example simple",
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "api/controller/",
+            "Models\\": "api/model/",
+            "Config\\": "api/config/",
+            "Routes\\": "api/routes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "RojxStack"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

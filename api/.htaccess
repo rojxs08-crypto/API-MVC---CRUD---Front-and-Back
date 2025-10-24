@@ -1,0 +1,36 @@
+# Activamos el motor de reescritura de URLs de Apache
+# Esto permite transformar las URLs que llegan al servidor antes de que se busquen los archivos reales
+#RewriteEngine On
+
+# Esta condición verifica si el archivo solicitado NO existe físicamente en el servidor
+# %{REQUEST_FILENAME} es la ruta completa del archivo que se está pidiendo
+# El símbolo ! significa "NO", y -f significa "es un archivo"
+# Por lo tanto: "Si no existe un archivo con ese nombre..."
+#RewriteCond %{REQUEST_FILENAME} !-f
+
+# Esta condición verifica si el directorio solicitado NO existe físicamente
+# -d significa "es un directorio", y el ! igual que antes significa "NO"
+# Entonces: "Si no existe un directorio con ese nombre..."
+#RewriteCond %{REQUEST_FILENAME} !-d
+
+# Esta regla se aplica si se cumplen las dos condiciones anteriores
+# ^ significa "inicio de la cadena" (en este caso, cualquier ruta)
+# index.php es el archivo al que se redirige la petición
+# [QSA,L] son flags (opciones):
+#   QSA → Query String Append, mantiene los parámetros GET que vengan en la URL
+#          Por ejemplo, si la URL original era /api/products?id=5, se mantendrá ?id=5
+#   L → Last rule, indica que si esta regla se cumple, no se procesan más reglas
+# En resumen: "Si no hay archivo ni carpeta con ese nombre, redirigí todo a index.php"
+#RewriteRule ^ index.php [QSA,L]
+
+#BASICAMENTE LE DICE SI LO QUE PIDE NO ES UNA ARCHIVO O DIRECTORIO REAL REDIRIGILO A INDEX.php
+#HACEMOS ESTO POR QUE SABEMOS DE QUE SI NO ES UN ARCHIVO REAL LO QUE ESTA PIDIENDO ES POR QUE ES
+#UNA ROUTE.
+
+#---- POR ESO ES BUENA PRACTICA QUE NO CREEMOS CARPETA O ARCHIVOS CON EL MISMO NOMBRE DE LAS ROUTE DE LAS PETICIONES
+# QUE SE HACE POR QUE SI EXISTEN SI TE REDIRIJE
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
