@@ -53,6 +53,13 @@ botonVer.addEventListener("click", () => {
 
 
         resultado.data.forEach(resul => {
+            const buttonCambiar = document.createElement("button");
+            const buttonGuardado = document.getElementById("cambiar");
+            buttonGuardado.dataset.id = resul.id;
+            buttonCambiar.dataset.id = resul.id;
+            buttonCambiar.dataset.nombre = resul.nombre;
+            buttonCambiar.dataset.precio = resul.precio;
+            buttonCambiar.textContent = "Modificar";
             const children = document.createElement("div")
             const buttonData = document.createElement("button");
             buttonData.dataset.id = resul.id;
@@ -61,6 +68,7 @@ botonVer.addEventListener("click", () => {
             children.innerHTML = `<p>Id: ${resul.id} - Nombre: ${resul.nombre} - Precio: ${resul.precio} - Creado: ${resul.creado_en}</p>`;
             container.appendChild(children);
             children.appendChild(buttonData);
+            children.appendChild(buttonCambiar);
 
             buttonData.addEventListener("click", (e) => {
 
@@ -85,6 +93,58 @@ botonVer.addEventListener("click", () => {
                 });
 
             });
+
+
+            let currentId = null;
+
+
+            buttonCambiar.addEventListener("click", (e) => {
+                currentId = e.target.dataset.id; // guardamos el id actual
+                const inputNombre = document.getElementById("nameModal");
+                const inputPrecio = document.getElementById("precioModal");
+                inputNombre.value = e.target.dataset.nombre;
+                inputPrecio.value = e.target.dataset.precio;
+                const modal = document.getElementById("modal");
+                modal.style.display = "flex";
+            });
+
+
+
+
+
+            buttonGuardado.addEventListener("click", (e) => {
+
+                if (!currentId) return;
+
+                const id = currentId;
+                const data = {
+                    nombre: document.getElementById("nameModal").value,
+                    precio: document.getElementById("precioModal").value,
+                    id: id
+                }
+
+
+
+                fetch('http://localhost/CRUD/api/products/' + id, {
+                    method: 'PUT',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+
+                }).then(response => response.json()).then(response => {
+
+                    if (response.error) {
+                        console.error("Error al modificar el producto", response.error);
+                    } else {
+                        alert("Producto modificado correctamente ✅");
+                    }
+
+
+                });
+            });
+
+
 
 
         });

@@ -42,12 +42,27 @@ class Product {
     }
 
 
-    function deleteProduct($id){
+    public function deleteProduct($id){
         $sql = "DELETE FROM productos where id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":id" , $id);
         return $stmt->execute();
     }
+
+
+    public function updateProduct($id , $nombre , $precio){
+        $sql = "UPDATE productos SET nombre = :nombre , precio = :precio WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":nombre" , $nombre);
+        $stmt->bindParam(":precio" , $precio);
+        $stmt->bindParam(":id" , $id);
+
+        return $stmt->execute();
+    }
+
+
+
+
 
 }
 

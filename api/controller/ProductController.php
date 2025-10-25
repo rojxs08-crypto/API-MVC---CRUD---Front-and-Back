@@ -18,6 +18,10 @@ class ProductController {
     //y ademas valida los datos recibidos antes de pasarlos al modelo
     //se llama store por que es comun en las arquitecturas MVC llamar store al metodo que guarda
     // nuevos recursos
+
+
+
+
     public function store(){
         try {
             
@@ -104,6 +108,40 @@ class ProductController {
             }
         }catch(Exception $e){
             echo json_encode(["error en delete" => $e->getMessage()]);
+        }
+    }
+
+
+    public function update(){
+
+
+            try{
+                $rawData = file_get_contents("php://input");
+                $data = json_decode($rawData, true);
+
+            if(json_last_error() !== JSON_ERROR_NONE){
+                throw new Exception("Error al decodificar el JSON: ") .  json_last_error_msg();
+            }
+
+            if(!isset($data["nombre"]) || !isset($data["precio"]) || !isset($data["id"])){
+                echo json_encode (["error" => "Error faltan datos obligatorios"]);
+                return;
+            }
+
+
+            $product = new Product();
+            $success = $product->updateProduct($data["id"] , $data["nombre"] , $data["precio"]);
+
+            if($success){
+                echo json_encode(["status" => "success" , "message" => "Producto actualizado correctamente"]);
+            }else{
+                echo json_encode(["status" => "error" ,  "message" => "Error al actualizar el producto"]);
+            }
+            
+            
+            
+            }catch(Exception $e){
+            echo json_encode(["Error en upddate" => $e->getMessage()]);
         }
     }
 

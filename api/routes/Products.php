@@ -68,7 +68,16 @@ elseif (preg_match('/^\/products\/(\d+)$/', $route, $matches) && $_SERVER['REQUE
     }
     exit();
 }
+elseif (preg_match('/^\/products\/(\d+)$/', $route, $matches) && $_SERVER['REQUEST_METHOD'] === 'PUT'){
+    $productId = $matches[1];
 
+    try{
+        $controller = new ProductController();
+        $controller->update($productoId , $nombre , $precio);
+    }catch(Exception $e){
+        echo json_encode(["error" => "Error en ProductControler " . $e->getMessage()]);
+    }
+}
 
 
 

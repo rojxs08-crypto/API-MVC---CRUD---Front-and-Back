@@ -1,4 +1,7 @@
 
+body{
+    background-color: aqua;
+}
 
 .children {
     height: 100px;
@@ -6,4 +9,18 @@
     display: block ;
     width: 200px;
     margin: 40px;
+}
+
+
+#modal{
+    display: none;
+    flex-direction: column;
+    width: 200px;
+    padding: 20px;
+    background-color: rgb(197, 96, 96);
+    margin: 40px;
+}
+
+#modal #cambiar{
+    margin-top: 10px;
 }
