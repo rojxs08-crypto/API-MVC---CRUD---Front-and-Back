@@ -47,20 +47,58 @@ botonVer.addEventListener("click", () => {
         }
     }).then(response => response.json().then(resultado => {
         console.log("Respuesta del servidor:", resultado);
-        if(container.innerHTML != ""){
+        if (container.innerHTML != "") {
             container.innerHTML = "";
         }
+
+
         resultado.data.forEach(resul => {
             const children = document.createElement("div")
+            const buttonData = document.createElement("button");
+            buttonData.dataset.id = resul.id;
+            buttonData.textContent = "Borrar";
+            buttonData.classList.add("borrarProducto");
             children.innerHTML = `<p>Id: ${resul.id} - Nombre: ${resul.nombre} - Precio: ${resul.precio} - Creado: ${resul.creado_en}</p>`;
             container.appendChild(children);
+            children.appendChild(buttonData);
+
+            buttonData.addEventListener("click", (e) => {
+
+                const id = e.target.dataset.id;
+
+                fetch('http://localhost/CRUD/api/products/' + id, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "aplicattion/json"
+                    },
+                    body: JSON.stringify({ id: id })
+                }).then(response => response.json()).then(response => {
+                    if (response.error) {
+                        alert("Error: " + response.error);
+                        return;
+                    } else {
+                        alert("Producto eliminado correctamente ✅");
+                    }
+
+                }).catch(error => {
+                    console.error("Error al eliminar el producto", error);
+                });
+
+            });
 
 
         });
+
+
+
+
+
     })).catch(error => {
         console.error("Error en la respuesta", error);
     });
 
-
-
 });
+
+
+
+

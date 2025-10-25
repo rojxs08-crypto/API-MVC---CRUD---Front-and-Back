@@ -55,4 +55,23 @@ elseif ($route === '/products' && $_SERVER['REQUEST_METHOD'] === 'GET'){
     }
     exit();
 }
+elseif (preg_match('/^\/products\/(\d+)$/', $route, $matches) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    // Extraer el ID del producto de la URL
+    $productId = $matches[1];
+
+    try {
+        $controller = new ProductController();
+        $controller->delete($productId);
+    } catch (Exception $e) {
+        error_log("Error en ProductController: " . $e->getMessage());
+        echo json_encode(["error" => "Error interno del servidor"]);
+    }
+    exit();
+}
+
+
+
+
+
+
 ?>

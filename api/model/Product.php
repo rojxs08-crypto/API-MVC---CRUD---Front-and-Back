@@ -41,6 +41,14 @@ class Product {
         return $response;
     }
 
+
+    function deleteProduct($id){
+        $sql = "DELETE FROM productos where id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id" , $id);
+        return $stmt->execute();
+    }
+
 }
 
 ?>

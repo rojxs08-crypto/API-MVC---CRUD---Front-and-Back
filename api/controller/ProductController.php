@@ -79,24 +79,35 @@ class ProductController {
     }
 
 
-
-
-
-
     public function viewProducts() {
         try{     
             $product = new Product();
             $success = $product->getter(); 
             echo json_encode(["status" => "success" , "data" => $success]);
-        //     if ($success) {
-        //          echo json_encode(["status" => "succes" , "data" => $success]);
-        //     }else{
-        //         echo json_encode (["status" => "error" , "message" => "Error al obtener los productos"]);
-        //     }
         } catch(\Exception $e) {
             echo json_encode(["error en viewProducts" => $e->getMessage()]);
         }
     }
+
+
+    public function delete($id){
+
+        try{
+            $product = new Product();
+            $success = $product->deleteProduct($id);
+
+            if($success) {
+                echo json_encode(["status" => "success", "message" => "Producto eliminado correctamente"]);
+
+            }else {
+                echo json_encode(["status" => "error" , "message" => "Error al eliminar el producto"]);
+            }
+        }catch(Exception $e){
+            echo json_encode(["error en delete" => $e->getMessage()]);
+        }
+    }
+
+
 }
 
 
